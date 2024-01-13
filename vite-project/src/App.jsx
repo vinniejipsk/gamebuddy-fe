@@ -12,6 +12,8 @@ import LogInForm from './components/LogInForm/LogInForm'
 import SignUpForm from './components/SignUpForm/SignUpForm'
 import MainPage from './components/MainPage/MainPage'
 import NavBar from './components/NavBar/NavBar'
+import CreateReviewForm from './components/CreateReviewForm/CreateReviewForm'
+import UserPage from './components/UserPage/UserPage'
 
 function App() {
   const [user, setUser] = useState(getUser)
@@ -24,6 +26,8 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/user/:id" element={<UserPage />} /> 
+          {/* getUser, updateUser, getReviews endpoints */}
           <Route path="/create" element={<CreateReviewForm />} />
         </Routes>
         <h1>Welcome, {user}!</h1>
