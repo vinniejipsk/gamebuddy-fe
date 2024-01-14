@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signUp } from '../../service/users';
 
 function Copyright(props) {
   return (
@@ -31,14 +33,30 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUpForm() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
+  const [formState, setFormState] = useState({});
+  const [disable, setDisable] = useState(true);
+
+  async function handleSubmit(evt) {
+    try { 
+        evt.preventDefault();
+        // We don't want to send the 'error' or 'confirm' property,
+        //  so let's make a copy of the state object, then delete them
+        // highlight-start
+        // hashPassword();
+        const formData = {...formState};
+        delete formData.error;
+        delete formData.confirm;
+        // highlight-end
+        console.log(formData)
+        const user = await signUp(formData);
+        // Baby step!
+        console.log(user)
+      
+      } catch(e) {
+        console.log(e);
+      }
+}
 
   return (
     <ThemeProvider theme={defaultTheme}>
