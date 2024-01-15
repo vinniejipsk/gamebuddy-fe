@@ -1,5 +1,3 @@
-# Game Buddy
+# gamingbuddy-fe
 
-Intro:
-
-...
+Test Test
