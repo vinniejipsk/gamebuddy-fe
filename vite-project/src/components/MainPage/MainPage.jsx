@@ -2,14 +2,8 @@ import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Header from './Header';
 import MainFeaturedPost from './MainFeaturedPost';
-
-const sections = [
-  { title: 'Game Reviews', url: '#' },
-  { title: 'User Reviews', url: '#' },
-  { title: 'Create a Review', url: '#' },
-];
+import NavBar from '../NavBar/NavBar';
 
 const mainFeaturedPost = {
   title: 'Title of a Game',
@@ -28,7 +22,7 @@ export default function MainPage() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Blog" sections={sections} />
+        <NavBar />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
         </main>

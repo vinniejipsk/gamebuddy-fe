@@ -14,6 +14,7 @@ import MainPage from './components/MainPage/MainPage'
 import NavBar from './components/NavBar/NavBar'
 import CreateReviewForm from './components/CreateReviewForm/CreateReviewForm'
 import UserPage from './components/UserPage/UserPage'
+import ViewReviewPage from './components/ViewReviewPage/ViewReviewPage'
 
 function App() {
   const [user, setUser] = useState(getUser)
@@ -28,7 +29,7 @@ function App() {
           <Route path="/" element={<MainPage />} />
           <Route path="/user/:id" element={<UserPage />} /> 
           {/* getUser, updateUser, getReviews endpoints */}
-          <Route path="/create" element={<CreateReviewForm />} />
+          <Route path="/reviews/create" element={<CreateReviewForm />} />
         </Routes>
         <h1>Welcome, {user}!</h1>
       </>
@@ -40,7 +41,10 @@ function App() {
             <Route path="/login" element={<LogInForm />} />
         </Routes>
         <MainPage />
-        {/* <CreateReviewForm /> */}
+        <Routes>
+            <Route path="/reviews/create" element={<CreateReviewForm />} />
+            <Route path="/reviews" element={<ViewReviewPage />} />
+        </Routes>
       </>
     )}
     </main>;
