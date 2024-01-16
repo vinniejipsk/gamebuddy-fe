@@ -40,6 +40,7 @@ function App() {
             <Route path="/login" element={<LogInForm />} />
         </Routes>
         <MainPage />
+        {/* <CreateReviewForm /> */}
       </>
     )}
     </main>;
