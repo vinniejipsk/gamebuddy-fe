@@ -1,11 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
 
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from "react-router-dom";
 
-import { getUser } from './service/users'
+import { getUser } from "./service/users";
+
 
 import AuthPage from './components/AuthPage/AuthPage'
 import LogInForm from './components/LogInForm/LogInForm'
@@ -16,8 +17,9 @@ import CreateReviewForm from './components/CreateReviewForm/CreateReviewForm'
 import UserPage from './components/UserPage/UserPage'
 import ViewReviewPage from './components/ViewReviewPage/ViewReviewPage'
 
+
 function App() {
-  const [user, setUser] = useState(getUser)
+  const [user, setUser] = useState(getUser);
 
   return <main className="App">
   {
@@ -50,4 +52,4 @@ function App() {
     </main>;
 }
 
-export default App
+export default App;
