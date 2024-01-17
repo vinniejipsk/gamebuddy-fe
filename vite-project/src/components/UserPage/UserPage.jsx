@@ -1,5 +1,6 @@
 import { Avatar, Box, Container, Typography } from "@mui/material";
 import UserReviews from "./UserReviews";
+import { useEffect } from "react";
 
 function UserPage() {
   const user = {
@@ -34,6 +35,10 @@ function UserPage() {
       linkText: "Continue reading…",
     },
   ];
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
