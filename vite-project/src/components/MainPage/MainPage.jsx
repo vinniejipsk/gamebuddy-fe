@@ -25,8 +25,10 @@ export default function MainPage() {
           releaseYear: reviews[0].releaseYear,
           platform: reviews[0].platform,
         });
-        // Set the next 8 reviews for SubFeaturedPost
-        setSubFeaturedPosts(reviews.slice(1, 9));
+        const additionalPosts = reviews.slice(1, 9);
+        if (Array.isArray(additionalPosts)) {
+          setSubFeaturedPosts(additionalPosts);
+        }
       }
     };
     fetchData();
