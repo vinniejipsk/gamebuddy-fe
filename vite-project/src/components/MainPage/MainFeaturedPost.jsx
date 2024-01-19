@@ -22,7 +22,7 @@ function MainFeaturedPost(props) {
         backgroundImage: `url(${post.image})`,
       }}
     >
-      {/* Increase the priority of the hero background image */}
+
       {<img style={{ display: 'none' }} src={post.image} alt={post.imageText} />}
       <Box
         sx={{
@@ -44,14 +44,14 @@ function MainFeaturedPost(props) {
             }}
           >
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-              {post.title}
+              {post.game}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            <Typography variant="h6" color="text.secondary">
+              Rating: {rating} / Release Year: {releaseYear} / Platform: {platform}
+            </Typography>
           </Box>
         </Grid>
       </Grid>
@@ -61,11 +61,11 @@ function MainFeaturedPost(props) {
 
 MainFeaturedPost.propTypes = {
   post: PropTypes.shape({
+    game: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    imageText: PropTypes.string.isRequired,
-    linkText: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
+    rating: PropTypes.string.isRequired,
+    realeaseYear: PropTypes.string.isRequired,
+    platform: PropTypes.string.isRequired,
   }).isRequired,
 };
 
