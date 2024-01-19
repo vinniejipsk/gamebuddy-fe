@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import PropTypes from 'prop-types';
 
 function SubFeaturedPost(props) {
   const { game, description, rating, releaseYear, platform, image } = props;
@@ -34,14 +33,5 @@ function SubFeaturedPost(props) {
     </Card>
   );
 }
-
-SubFeaturedPost.propTypes = {
-  game: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
-  releaseYear: PropTypes.number.isRequired,
-  platform: PropTypes.string.isRequired,
-//   image: PropTypes.string, // Image is optional
-};
 
 export default SubFeaturedPost;
