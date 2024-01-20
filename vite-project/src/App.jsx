@@ -3,6 +3,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { getUser } from "./service/users";
 
+
 import AuthPage from './components/AuthPage/AuthPage'
 import LogInForm from './components/LogInForm/LogInForm'
 import SignUpForm from './components/SignUpForm/SignUpForm'
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <main className="App">
+
       <NavBar />
       <div style={{ marginTop: '64px' }}>
         {

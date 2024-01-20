@@ -4,7 +4,7 @@ const BASE_URL = "http://localhost:3000/users";
 export async function signUp(userData) {
   // Fetch uses an options object as a second arg to make requests
   // other than basic GET requests, include data, headers, etc.
-  const createURL = BASE_URL + '/create';
+  const createURL = BASE_URL + "/create";
   console.log(createURL);
   const res = await fetch(createURL, {
     method: "POST",
@@ -26,8 +26,8 @@ export async function signUp(userData) {
 export async function getLoginDetails(email) {
   // Fetch uses an options object as a second arg to make requests
   // other than basic GET requests, include data, headers, etc.
-  const searchParams = new URLSearchParams({"email":email});
-  const getLoginDetailsURL = BASE_URL + '/login?' + searchParams;
+  const searchParams = new URLSearchParams({ email: email });
+  const getLoginDetailsURL = BASE_URL + "/login?" + searchParams;
   console.log(getLoginDetailsURL);
   const res = await fetch(getLoginDetailsURL, {
     method: "GET",
@@ -48,7 +48,7 @@ export async function getLoginDetails(email) {
 export async function storeToken(userData) {
   // Fetch uses an options object as a second arg to make requests
   // other than basic GET requests, include data, headers, etc.
-  const createURL = BASE_URL + '/storeToken';
+  const createURL = BASE_URL + "/storeToken";
   console.log(createURL);
   const res = await fetch(createURL, {
     method: "POST",
@@ -70,7 +70,7 @@ export async function storeToken(userData) {
 export async function loginUser(userData) {
   // Fetch uses an options object as a second arg to make requests
   // other than basic GET requests, include data, headers, etc.
-  const loginURL = BASE_URL + '/login';
+  const loginURL = BASE_URL + "/login";
   console.log(loginURL);
   const res = await fetch(loginURL, {
     method: "POST",
@@ -88,3 +88,13 @@ export async function loginUser(userData) {
     throw new Error("Invalid Login");
   }
 }
+
+// export async function getUserReviews() {
+//   const getUserReviewsURL = BASE_URL + `/${userId}/reviews`;
+//   const res = await fetch(getUserReviewsURL, {
+//     method: "GET",
+//     headers: {
+//       // Authorization: `Bearer ${TOKEN}`,
+//     },
+//   });
+// }
