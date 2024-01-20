@@ -27,19 +27,24 @@ export default function CreateReviewForm() {
   };
 
   const handleAutocompleteChange = (name) => (event, value) => {
-    setReviewForm({ ...reviewForm, [name]: value });
+    const newValue = value && value.label ? value.label : value;
+    setReviewForm({ ...reviewForm, [name]: newValue });
+  };
+
+  const handleRatingChange = (event, value) => {
+    const newRating = value && value.label ? parseInt(value.label, 10) : value;
+    setReviewForm({ ...reviewForm, rating: newRating });
   };
 
   async function handleSubmit(evt) {
     evt.preventDefault();
     try {
-      // Ensure all fields are filled
+
       if (!reviewForm.game || !reviewForm.platform || reviewForm.rating === null || !reviewForm.description) {
         alert('Please fill in all fields');
         return;
       }
 
-      // Call the submitReview function to post the data
       const response = await submitReview(reviewForm);
       console.log('Review submitted successfully', response);
       
@@ -74,6 +79,7 @@ export default function CreateReviewForm() {
                   options={gamelist}
                   value={reviewForm.game}
                   onChange={handleAutocompleteChange('game')}
+                  isOptionEqualToValue={(option, value) => option.label === value}
                   renderInput={(params) => <TextField {...params} label="Game" />}
                 />
               </Grid>
@@ -84,6 +90,7 @@ export default function CreateReviewForm() {
                   options={platformlist}
                   value={reviewForm.platform}
                   onChange={handleAutocompleteChange('platform')}
+                  isOptionEqualToValue={(option, value) => option.label === value}
                   renderInput={(params) => <TextField {...params} label="Platforms" />}
                 />
               </Grid>
@@ -93,7 +100,8 @@ export default function CreateReviewForm() {
                   id="rating"
                   options={ratinglist}
                   value={reviewForm.rating}
-                  onChange={handleAutocompleteChange('rating')}
+                  onChange={handleRatingChange}
+                  getOptionLabel={(option) => option.toString()}
                   renderInput={(params) => <TextField {...params} label="Rating" />}
                 />
               </Grid>
@@ -172,16 +180,4 @@ const platformlist = [
   { label: 'iOS' },
 ];
 
-const ratinglist = [
-  { label: '0' },
-  { label: '1' },
-  { label: '2' },
-  { label: '3' },
-  { label: '4' },
-  { label: '5' },
-  { label: '6' },
-  { label: '7' },
-  { label: '8' },
-  { label: '9' },
-  { label: '10' },
-];
+const ratinglist = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
