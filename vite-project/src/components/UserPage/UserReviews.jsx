@@ -3,11 +3,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function UserReviews({ reviews }) {
+  console.log(reviews);
   return (
     reviews &&
     reviews.map((review) => {
       return (
-        <div key={review.id}>
+        <div key={review._id}>
           {" "}
           <Paper
             sx={{
@@ -54,14 +55,16 @@ function UserReviews({ reviews }) {
                     color="inherit"
                     gutterBottom
                   >
-                    {review.title}
+                    {review.game}
                   </Typography>
                   <Typography variant="h5" color="inherit" paragraph>
                     {review.description}
                   </Typography>
-                  <Link variant="subtitle1" href="#">
-                    {review.linkText}
-                  </Link>
+                  <Typography variant="subtitle1">{review.platform}</Typography>
+                  <Typography variant="subtitle1">{review.rating}</Typography>
+                  <Typography variant="subtitle1">
+                    {review.releaseYear}
+                  </Typography>
                 </Box>
               </Grid>
             </Grid>
