@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import MainFeaturedPost from './MainFeaturedPost';
 import SubFeaturedPost from './SubFeaturedPost';
 import NavBar from '../NavBar/NavBar';
@@ -40,20 +42,21 @@ export default function MainPage() {
       <Container maxWidth="lg">
         <NavBar />
         <main>
-
           {mainFeaturedPost && <MainFeaturedPost post={mainFeaturedPost} />}
 
-          {subFeaturedPosts.map((review, index) => (
-            <SubFeaturedPost
-              key={index}
-              game={review.game}
-              description={review.description}
-              rating={review.rating}
-              releaseYear={review.releaseYear}
-              platform={review.platform}
-            />
-
-          ))}
+          <Grid container spacing={2}> 
+            {subFeaturedPosts.map((review, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <SubFeaturedPost
+                  game={review.game}
+                  description={review.description}
+                  rating={review.rating}
+                  releaseYear={review.releaseYear}
+                  platform={review.platform}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </main>
       </Container>
     </ThemeProvider>
