@@ -2,7 +2,7 @@
 const BASE_URL = "http://localhost:3000/reviews";
 
 export async function createReview(reviewData) {
-  const createURL = BASE_URL + 'create';
+  const createURL = BASE_URL + '/create';
   try {
     const res = await fetch(createURL, {
       method: "POST",
