@@ -1,9 +1,7 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 
 function MainFeaturedPost(props) {
@@ -13,7 +11,7 @@ function MainFeaturedPost(props) {
     <Paper
       sx={{
         position: 'relative',
-        backgroundColor: 'grey.800',
+        backgroundColor: 'white',
         color: '#fff',
         mb: 4,
         backgroundSize: 'cover',
@@ -22,7 +20,7 @@ function MainFeaturedPost(props) {
         backgroundImage: `url(${post.image})`,
       }}
     >
-      {/* Increase the priority of the hero background image */}
+
       {<img style={{ display: 'none' }} src={post.image} alt={post.imageText} />}
       <Box
         sx={{
@@ -44,29 +42,19 @@ function MainFeaturedPost(props) {
             }}
           >
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
-              {post.title}
+              {post.game}
             </Typography>
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="#">
-              {post.linkText}
-            </Link>
+            <Typography variant="h6" color="text.secondary">
+              Rating: {post.rating} / Release Year: {post.releaseYear} / Platform: {post.platform}
+            </Typography>
           </Box>
         </Grid>
       </Grid>
     </Paper>
   );
 }
-
-MainFeaturedPost.propTypes = {
-  post: PropTypes.shape({
-    description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    imageText: PropTypes.string.isRequired,
-    linkText: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
-};
 
 export default MainFeaturedPost;
