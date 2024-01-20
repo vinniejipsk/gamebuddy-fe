@@ -1,13 +1,7 @@
-import * as usersAPI from "../api/reviews";
+import * as reviewsAPI from "../api/reviews";
 
-export async function CreateReview(reviewData) {
+export async function submitReview(reviewData) {
     console.log("service", reviewData)
-    const Data = await ReviewAPI.CreateReview(reviewData);
+    const Data = await reviewsAPI.createReview(reviewData);
     return Data;
-  }
-
-export async function getLoginDetails(reviewData) {
-    console.log("getReviewData", reviewData)
-    const reviewDetails = await usersAPI.getLoginDetails(reviewData);
-    return reviewDetails;
   }

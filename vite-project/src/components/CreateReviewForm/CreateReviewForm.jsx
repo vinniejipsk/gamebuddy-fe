@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react'
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,17 +9,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
-// import { createReview } from '../../service/reviews'
-
+import { submitReview } from '../../service/reviews';
 
 const defaultTheme = createTheme();
 
 export default function CreateReviewForm() {
-
   const [reviewForm, setReviewForm] = useState({
-    game: '',
-    platform: '',
-    rating: '',
+    game: null,
+    platform: null,
+    rating: null,
     description: ''
   });
 
@@ -36,20 +34,21 @@ export default function CreateReviewForm() {
     evt.preventDefault();
     try {
       // Ensure all fields are filled
-      if (!reviewForm.game || !reviewForm.platform || !reviewForm.rating || !reviewForm.description) {
+      if (!reviewForm.game || !reviewForm.platform || reviewForm.rating === null || !reviewForm.description) {
         alert('Please fill in all fields');
         return;
       }
-      console.log(reviewForm);
-      // const review = await createReview(reviewForm);
-      // Provide feedback to user
-      console.log('Review submitted successfully', review);
-      // Optionally, reset form or navigate to another page
+
+      // Call the submitReview function to post the data
+      const response = await submitReview(reviewForm);
+      console.log('Review submitted successfully', response);
+      
+      setReviewForm({ game: null, platform: null, rating: null, description: '' });
     } catch (e) {
       console.error('Error submitting review', e);
-      // Provide error feedback to user
+      alert('Error submitting review');
     }
-  }    
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -70,46 +69,46 @@ export default function CreateReviewForm() {
             <Grid container spacing={2}>
               <Grid item xs={5}>
                 <Autocomplete
-                disablePortal
-                id="game"
-                options={gamelist}
-                value={reviewForm.game}
-                onChange={handleAutocompleteChange('game')}
-                renderInput={(params) => <TextField {...params} label="Game" />}
+                  disablePortal
+                  id="game"
+                  options={gamelist}
+                  value={reviewForm.game}
+                  onChange={handleAutocompleteChange('game')}
+                  renderInput={(params) => <TextField {...params} label="Game" />}
                 />
               </Grid>
               <Grid item xs={4}>
                 <Autocomplete
-                disablePortal
-                id="platform"
-                options={platformlist}
-                value={reviewForm.platform}
-                onChange={handleAutocompleteChange('platform')}
-                renderInput={(params) => <TextField {...params} label="Platforms" />}
+                  disablePortal
+                  id="platform"
+                  options={platformlist}
+                  value={reviewForm.platform}
+                  onChange={handleAutocompleteChange('platform')}
+                  renderInput={(params) => <TextField {...params} label="Platforms" />}
                 />
-                </Grid>
-                <Grid item xs={3}>
-                  <Autocomplete
+              </Grid>
+              <Grid item xs={3}>
+                <Autocomplete
                   disablePortal
                   id="rating"
                   options={ratinglist}
-                  value={reviewForm.platform}
+                  value={reviewForm.rating}
                   onChange={handleAutocompleteChange('rating')}
                   renderInput={(params) => <TextField {...params} label="Rating" />}
-                  />
-                </Grid>
-                <Grid item xs={12}>
+                />
+              </Grid>
+              <Grid item xs={12}>
                 <TextField 
-                    required
-                    fullWidth
-                    name="description"
-                    label="Description"
-                    multiline
-                    rows={10} 
-                    value={reviewForm.description}
-                    onChange={handleInputChange}
-                  />
-                </Grid>
+                  required
+                  fullWidth
+                  name="description"
+                  label="Description"
+                  multiline
+                  rows={10} 
+                  value={reviewForm.description}
+                  onChange={handleInputChange}
+                />
+              </Grid>
             </Grid>
             <Button
               type="submit"
