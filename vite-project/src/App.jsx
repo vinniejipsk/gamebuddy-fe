@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
-import { getUser } from "./service/users";
+import { getUser, logOut } from "./service/users";
 
 import AuthPage from "./components/AuthPage/AuthPage";
 import LogInForm from "./components/LogInForm/LogInForm";
@@ -16,6 +16,11 @@ function App() {
   // const [user, setUser] = useState(getUser);
   const [user, setUser] = useState(getUser());
 
+  function handleLogOut() {
+    logOut();
+    setUser(null);
+  }
+
   return (
     <main className="App">
       <NavBar />
@@ -28,6 +33,8 @@ function App() {
               <Route path="/reviews/create" element={<CreateReviewForm />} />
             </Routes>
             <h1>Welcome, {user}!</h1>
+            <button onClick={handleLogOut}>Log Out</button>
+            <br />
             <Link to="/">Browse Reviews</Link>
           </>
         ) : (

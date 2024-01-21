@@ -35,6 +35,10 @@ export function getUser() {
   return token ? JSON.parse(atob(token.split(".")[1])).payload.user : null;
 }
 
+export function logOut() {
+  localStorage.removeItem("token");
+}
+
 // export function getUserReviews() {
 //   const token = usersAPI.getUserReviews();
 //   return token;
