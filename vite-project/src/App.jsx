@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { getUser } from "./service/users";
 
 import AuthPage from "./components/AuthPage/AuthPage";
@@ -14,7 +14,7 @@ import ViewReviewPage from "./components/ViewReviewPage/ViewReviewPage";
 
 function App() {
   // const [user, setUser] = useState(getUser);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(getUser());
 
   return (
     <main className="App">
@@ -28,6 +28,7 @@ function App() {
               <Route path="/reviews/create" element={<CreateReviewForm />} />
             </Routes>
             <h1>Welcome, {user}!</h1>
+            <Link to="/">Browse Reviews</Link>
           </>
         ) : (
           <>
@@ -35,7 +36,7 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/register" element={<SignUpForm />} />
-              <Route path="/login" element={<LogInForm />} />
+              <Route path="/login" element={<LogInForm setUser={setUser} />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews" element={<ViewReviewPage />} />
             </Routes>

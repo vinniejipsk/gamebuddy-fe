@@ -14,7 +14,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
-import { getLoginDetails, loginUser } from "../../service/users";
+import { getLoginDetails, getUser, loginUser } from "../../service/users";
 import { hashDataWithSaltRounds, storeToken } from "../../util/security";
 
 function Copyright(props) {
@@ -39,7 +39,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function LogInForm() {
+export default function LogInForm({ setUser }) {
   const [formState, setFormState] = useState({});
   const [logInStatus, setLogInStatus] = useState("");
 
@@ -79,6 +79,8 @@ export default function LogInForm() {
         // store token in localStorage
         storeToken(token.data);
       }
+      // render welcome message
+      setUser(getUser());
     } catch (e) {
       console.log(e);
     }
