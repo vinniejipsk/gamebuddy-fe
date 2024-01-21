@@ -14,7 +14,7 @@ import ViewReviewPage from "./components/ViewReviewPage/ViewReviewPage";
 
 function App() {
   // const [user, setUser] = useState(getUser);
-  const [user, setUser] = useState(1);
+  const [user, setUser] = useState();
 
   return (
     <main className="App">
