@@ -25,6 +25,7 @@ export async function loginUser(userData) {
   console.log("loginUser", userData);
   const res = await usersAPI.loginUser(userData);
   // Baby step by returning whatever is sent back by the server
+  console.log(res); // res.data = jwt
   return res;
 }
 

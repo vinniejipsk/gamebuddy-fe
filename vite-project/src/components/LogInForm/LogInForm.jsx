@@ -1,28 +1,36 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import { useState } from "react";
+import { getLoginDetails, loginUser } from "../../service/users";
+import { hashDataWithSaltRounds, storeToken } from "../../util/security";
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -32,13 +40,48 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function LogInForm() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const [formState, setFormState] = useState({});
+  const [logInStatus, setLogInStatus] = useState("");
+
+  function handleChange(evt) {
+    var currForm = formState;
+    currForm[evt.target.name] = evt.target.value;
+    setFormState(currForm);
+  }
+
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const formData = { ...formState };
+      delete formData.error;
+      delete formData.confirm;
+      console.log(formData);
+      // const data = new FormData(event.currentTarget);
+      // console.log({
+      //   email: data.get("email"),
+      //   password: data.get("password"),
+      // });
+      const loginDetails = await getLoginDetails(formData.email);
+      console.log(loginDetails);
+
+      const hashedPassword = hashDataWithSaltRounds(
+        formData.password,
+        loginDetails.salt,
+        loginDetails.iterations
+      );
+      formData.password = hashedPassword;
+      const token = await loginUser(formData);
+      console.log(token);
+      if (token.success === false) {
+        setLogInStatus(token.error);
+        console.log(logInStatus);
+      } else {
+        // store token in localStorage
+        storeToken(token.data);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -48,18 +91,35 @@ export default function LogInForm() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box
+            sx={{
+              marginTop: 5,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              color: "red",
+            }}
+          >
+            {logInStatus}
+          </Box>
+
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
             <TextField
               margin="normal"
               required
@@ -69,6 +129,7 @@ export default function LogInForm() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={handleChange}
             />
             <TextField
               margin="normal"
@@ -79,6 +140,7 @@ export default function LogInForm() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

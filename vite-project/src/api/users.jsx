@@ -47,7 +47,11 @@ export async function getLoginDetails(email) {
   if (res.ok) {
     // res.json() will resolve to the JWT
     console.log(res);
-    return res.json();
+    const data = await res.json();
+    console.log(data);
+    // const data = await res.json();
+    // console.log(data.user);
+    return data;
   } else {
     throw new Error("Invalid User");
   }
@@ -91,8 +95,17 @@ export async function loginUser(userData) {
   if (res.ok) {
     // res.json() will resolve to the JWT
     console.log(res);
-    return res.json();
+    const data = await res.json();
+    console.log(data);
+    // if (data.success === true) {
+    //   return data.data; //jwt
+    // } else {
+    //   return data.error;
+    // }
+
+    return data;
   } else {
+    console.log(data.errorMsg);
     throw new Error("Invalid Login");
   }
 }
