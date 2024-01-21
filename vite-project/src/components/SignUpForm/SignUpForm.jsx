@@ -1,29 +1,35 @@
-import * as React from 'react';
-import { useState } from 'react'
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { signUp } from '../../service/users';
+import * as React from "react";
+import { useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Link from "@mui/material/Link";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { signUp } from "../../service/users";
+import { hashData } from "../../util/security";
 
 function Copyright(props) {
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -33,30 +39,68 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignUpForm() {
-
   const [formState, setFormState] = useState({});
-  const [disable, setDisable] = useState(true);
+  // const [disable, setDisable] = useState(true);
+  const [signUpStatus, setSignUpStatus] = useState();
+
+  function handleChange(evt) {
+    var currForm = formState;
+    currForm[evt.target.name] = evt.target.value;
+    // setDisable(checkPassword());
+    setFormState(currForm);
+  }
+
+  // make sure check and password is the same
+  // function checkPassword() {
+  //   // password validation
+  //   // must have at least 1 uppercase, 1 lowercase, 1 special
+  //   var currForm = formState;
+  //   if (!currForm.password) {
+  //     return true;
+  //   }
+  //   if (!currForm.confirm) {
+  //     return true;
+  //   }
+  //   if (currForm.password !== currForm.confirm) {
+  //     console.log(currForm.password);
+  //     console.log(currForm.confirm);
+  //     return true;
+  //   }
+  //   return false;
+  // }
+
+  function hashPassword() {
+    console.log(formState);
+    var currForm = formState;
+    console.log(formState);
+    if (currForm.password) {
+      console.log(currForm.password);
+      var hash = hashData(currForm.password);
+      currForm.password = hash.hash;
+      currForm.salt = hash.salt;
+      currForm.iterations = hash.iterations;
+      console.log(formState);
+    }
+    console.log(formState);
+  }
 
   async function handleSubmit(evt) {
-    try { 
-        evt.preventDefault();
-        // We don't want to send the 'error' or 'confirm' property,
-        //  so let's make a copy of the state object, then delete them
-        // highlight-start
-        // hashPassword();
-        const formData = {...formState};
-        delete formData.error;
-        delete formData.confirm;
-        // highlight-end
-        console.log(formData)
-        const user = await signUp(formData);
-        // Baby step!
-        console.log(user)
-      
-      } catch(e) {
-        console.log(e);
-      }
-}
+    try {
+      evt.preventDefault();
+      // We don't want to send the 'error' or 'confirm' property,
+      //  so let's make a copy of the state object, then delete them
+      hashPassword();
+      const formData = { ...formState };
+      delete formData.error;
+      delete formData.confirm;
+      // console.log(formData)
+      const user = await signUp(formData);
+      console.log(user);
+      setSignUpStatus(user);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -65,19 +109,48 @@ export default function SignUpForm() {
         <Box
           sx={{
             marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box
+            component="form"
+            noValidate
+            onSubmit={handleSubmit}
+            sx={{ mt: 3 }}
+          >
+            <Box
+              sx={{
+                marginBottom: 5,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                // color: "red",
+              }}
+            >
+              {signUpStatus}
+            </Box>
             <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="given-name"
+                  name="name"
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoFocus
+                  onChange={handleChange}
+                />
+              </Grid>
+              {/* <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
@@ -87,6 +160,7 @@ export default function SignUpForm() {
                   id="firstName"
                   label="First Name"
                   autoFocus
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -97,8 +171,9 @@ export default function SignUpForm() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={handleChange}
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -107,6 +182,7 @@ export default function SignUpForm() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -118,11 +194,26 @@ export default function SignUpForm() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={handleChange}
                 />
               </Grid>
+              {/* <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="confirm-password"
+                  label="Confirm Password"
+                  type="password"
+                  id="confirm-password"
+                  autoComplete="new-password"
+                  onChange={handleChange}
+                />
+              </Grid> */}
               <Grid item xs={12}>
                 <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
+                  control={
+                    <Checkbox value="allowExtraEmails" color="primary" />
+                  }
                   label="I want to receive inspiration, marketing promotions and updates via email."
                 />
               </Grid>
@@ -132,6 +223,7 @@ export default function SignUpForm() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              // disabled={disable}
             >
               Sign Up
             </Button>
