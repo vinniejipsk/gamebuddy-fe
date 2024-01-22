@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,17 +9,29 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
+
 import { submitReview } from '../../service/reviews';
+import { getUser } from '../../service/users';
 
 const defaultTheme = createTheme();
 
 export default function CreateReviewForm() {
   const [reviewForm, setReviewForm] = useState({
+    userId: '',
     game: null,
     platform: null,
     rating: null,
     description: ''
   });
+
+  useEffect(() => {
+    const user = getUser(); 
+    if (user && user.id) {
+      setReviewForm(prevState => ({ ...prevState, userId: user.id }));
+    } else {
+      console.log("User is not logged in"); // WILL VISIT BACK HERE
+    }
+  }, []); 
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -37,18 +49,22 @@ export default function CreateReviewForm() {
   };
 
   async function handleSubmit(evt) {
-    evt.preventDefault();
-    try {
 
-      if (!reviewForm.game || !reviewForm.platform || reviewForm.rating === null || !reviewForm.description) {
+    evt.preventDefault();
+  
+    const userIdFromSession = getUser().id;
+    const updatedReviewForm = { ...reviewForm, userId: userIdFromSession };
+  
+    try {
+      if (!updatedReviewForm.game || !updatedReviewForm.platform || updatedReviewForm.rating === null || !updatedReviewForm.description || !updatedReviewForm.userId) {
         alert('Please fill in all fields');
         return;
       }
-
-      const response = await submitReview(reviewForm);
+  
+      const response = await submitReview(updatedReviewForm);
       console.log('Review submitted successfully', response);
       
-      setReviewForm({ game: null, platform: null, rating: null, description: '' });
+      setReviewForm({ userId: '', game: null, platform: null, rating: null, description: '' });
     } catch (e) {
       console.error('Error submitting review', e);
       alert('Error submitting review');
@@ -126,6 +142,11 @@ export default function CreateReviewForm() {
             >
               Submit Review
             </Button>
+            <input
+              type="hidden"
+              name="userId"
+              value={reviewForm.userId}
+            />
           </Box>
         </Box>
       </Container>
