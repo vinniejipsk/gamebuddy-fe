@@ -3,23 +3,30 @@ const BASE_URL = "http://localhost:3000/reviews";
 
 export async function createReview(reviewData) {
   const createURL = BASE_URL + '/create';
+  const token = localStorage.getItem('token'); // Get the stored JWT token
+
   try {
     const res = await fetch(createURL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // Include the JWT token in the request
+      },
       body: JSON.stringify(reviewData),
     });
+
     if (res.ok) {
-      return res.json();
+      return await res.json();
     } else {
-      const error = await res.text();
-      throw new Error(error);
+      const errorData = await res.text();
+      throw new Error(errorData);
     }
   } catch (error) {
     console.error("Error creating review: ", error);
     throw error;
   }
 }
+
 
 export async function getReviews() {
   try {
