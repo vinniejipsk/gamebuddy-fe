@@ -39,3 +39,29 @@ export async function getReviews() {
     console.error("There was a problem with the fetch operation:", error);
   }
 }
+
+export async function updateReview(reviewId, reviewData) {
+  const updateURL = `${BASE_URL}/${reviewId}/edit`;
+  const token = localStorage.getItem('token'); // Get the stored JWT token
+
+  try {
+    const res = await fetch(updateURL, {
+      method: "PUT", // or "PATCH" if you are using PATCH for partial updates
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` // Include the JWT token in the request
+      },
+      body: JSON.stringify(reviewData),
+    });
+
+    if (res.ok) {
+      return await res.json();
+    } else {
+      const errorData = await res.text();
+      throw new Error(errorData);
+    }
+  } catch (error) {
+    console.error("Error updating review: ", error);
+    throw error;
+  }
+}
