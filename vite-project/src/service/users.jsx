@@ -25,6 +25,7 @@ export async function loginUser(userData) {
   console.log("loginUser", userData);
   const res = await usersAPI.loginUser(userData);
   // Baby step by returning whatever is sent back by the server
+  console.log(res); // res.data = jwt
   return res;
 }
 
@@ -32,6 +33,10 @@ export function getUser() {
   const token = getToken();
   // If there's a token, return the user in the payload, otherwise return null
   return token ? JSON.parse(atob(token.split(".")[1])).payload.user : null;
+}
+
+export function logOut() {
+  localStorage.removeItem("token");
 }
 
 // export function getUserReviews() {
