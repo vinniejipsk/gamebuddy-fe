@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function ViewPageComponent() {
   const [review, setReview] = useState(null);
   const { reviewId } = useParams(); // Get reviewId from URL
 
+  const navigate = useNavigate();
+
   useEffect(() => {
+
     const fetchReview = async () => {
       try {
         const response = await fetch(`http://localhost:3000/reviews/${reviewId}`);
@@ -23,6 +26,10 @@ export default function ViewPageComponent() {
     fetchReview();
   }, [reviewId]);
 
+  const handleEditClick = () => {
+    navigate(`/reviews/${reviewId}/edit`);
+  };
+
   if (!review) {
     return <div>Loading...</div>;
   }
@@ -34,6 +41,7 @@ export default function ViewPageComponent() {
       <p>Platform: {review.platform}</p>
       <p>Release Year: {review.releaseYear}</p>
       <p>Description: {review.description}</p>
+      <button onClick={handleEditClick}>Edit</button>
     </div>
   );
 }

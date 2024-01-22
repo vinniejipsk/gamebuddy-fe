@@ -11,6 +11,7 @@ import NavBar from "./components/NavBar/NavBar";
 import CreateReviewForm from "./components/CreateReviewForm/CreateReviewForm";
 import UserPage from "./components/UserPage/UserPage";
 import ViewReviewPage from "./components/ViewReviewPage/ViewReviewPage";
+import UpdateReviewForm from "./components/CreateReviewForm/UpdateReviewForm";
 
 function App() {
   // const [user, setUser] = useState(getUser);
@@ -32,6 +33,7 @@ function App() {
               <Route path="/user/:userId" element={<UserPage />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
+              <Route path="/reviews/:reviewId/edit" element={<UpdateReviewForm />} />
             </Routes>
             <h1>Welcome, {user}!</h1>
             <button onClick={handleLogOut}>Log Out</button>
@@ -47,6 +49,7 @@ function App() {
               <Route path="/login" element={<LogInForm setUser={setUser} />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
+              <Route path="/reviews/:reviewId/edit" element={<UpdateReviewForm />} />
             </Routes>
           </>
         )}
