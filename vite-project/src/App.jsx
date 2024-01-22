@@ -31,6 +31,7 @@ function App() {
               <Route path="/" element={<MainPage />} />
               <Route path="/user/:userId" element={<UserPage />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
+              <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
             </Routes>
             <h1>Welcome, {user}!</h1>
             <button onClick={handleLogOut}>Log Out</button>
@@ -45,7 +46,7 @@ function App() {
               <Route path="/register" element={<SignUpForm />} />
               <Route path="/login" element={<LogInForm setUser={setUser} />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
-              <Route path="/reviews" element={<ViewReviewPage />} />
+              <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
             </Routes>
           </>
         )}
