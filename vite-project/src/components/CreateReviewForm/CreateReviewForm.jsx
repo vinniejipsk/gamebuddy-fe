@@ -12,6 +12,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 import { submitReview } from '../../service/reviews';
 import { getUser } from '../../service/users';
+import { getToken } from '../../util/security';
 
 const defaultTheme = createTheme();
 
@@ -25,13 +26,16 @@ export default function CreateReviewForm() {
   });
 
   useEffect(() => {
-    const user = getUser(); 
-    if (user && user.id) {
-      setReviewForm(prevState => ({ ...prevState, userId: user.id }));
+    const user = getUser();
+    if (user) {
+      // Assuming 'user' contains the username or user ID
+      setReviewForm(prevState => ({ ...prevState, userId: user }));
+      console.log("User logged in useEffect");
     } else {
-      console.log("User is not logged in"); // WILL VISIT BACK HERE
+      console.log("User is not logged in useEffect");
+      // Optionally, redirect to login page or disable form
     }
-  }, []); 
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -49,27 +53,37 @@ export default function CreateReviewForm() {
   };
 
   async function handleSubmit(evt) {
-
     evt.preventDefault();
   
-    const userIdFromSession = getUser().id;
-    const updatedReviewForm = { ...reviewForm, userId: userIdFromSession };
+    // Retrieve the token and decode its payload
+    const token = getToken();
+    const payload = token ? JSON.parse(atob(token.split(".")[1])).payload : null;
   
-    try {
-      if (!updatedReviewForm.game || !updatedReviewForm.platform || updatedReviewForm.rating === null || !updatedReviewForm.description || !updatedReviewForm.userId) {
-        alert('Please fill in all fields');
-        return;
+    // Check if the payload exists and has the user ID
+    if (payload && payload.id) {
+      // Update the review form with the user ID
+      const updatedReviewForm = { ...reviewForm, userId: payload.id };
+  
+      try {
+        if (!updatedReviewForm.game || !updatedReviewForm.platform || updatedReviewForm.rating === null || !updatedReviewForm.description) {
+          alert('Please fill in all fields');
+          return;
+        }
+  
+        const response = await submitReview(updatedReviewForm);
+        console.log('Review submitted successfully', response);
+  
+        // Clear the form after submission
+        setReviewForm({ game: null, platform: null, rating: null, description: '', userId: '' });
+      } catch (e) {
+        console.error('Error submitting review', e);
+        alert('Error submitting review');
       }
-  
-      const response = await submitReview(updatedReviewForm);
-      console.log('Review submitted successfully', response);
-      
-      setReviewForm({ userId: '', game: null, platform: null, rating: null, description: '' });
-    } catch (e) {
-      console.error('Error submitting review', e);
-      alert('Error submitting review');
+    } else {
+      console.error("User is not logged in");
+      alert("Please log in to submit a review");
     }
-  }
+  }  
 
   return (
     <ThemeProvider theme={defaultTheme}>

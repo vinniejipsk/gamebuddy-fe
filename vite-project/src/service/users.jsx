@@ -35,6 +35,12 @@ export function getUser() {
   return token ? JSON.parse(atob(token.split(".")[1])).payload.user : null;
 }
 
+export function getUserPayload() {
+  const token = getToken();
+  // If there's a token, return the user in the payload, otherwise return null
+  return token ? JSON.parse(atob(token.split(".")[1])).payload : null;
+}
+
 export function logOut() {
   localStorage.removeItem("token");
 }
