@@ -65,3 +65,25 @@ export async function updateReview(reviewId, reviewData) {
     throw error;
   }
 }
+
+export async function deleteReview(reviewId) {
+  const deleteURL = `${BASE_URL}/${reviewId}`;
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await fetch(deleteURL, {
+      method: 'DELETE',
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to delete review');
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    throw error;
+  }
+}
