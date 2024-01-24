@@ -21,6 +21,7 @@ function App() {
   // retrieve user id when logged in
   useEffect(() => {
     const token = getToken();
+    console.log(token);
     const payload = token
       ? JSON.parse(atob(token.split(".")[1])).payload
       : null;
@@ -30,7 +31,7 @@ function App() {
     }
   }, []);
 
-  // console.log("USERID:", userId);
+  console.log("USERID:", userId);
 
   function handleLogOut() {
     logOut();
@@ -64,7 +65,10 @@ function App() {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/register" element={<SignUpForm />} />
-              <Route path="/login" element={<LogInForm setUser={setUser} />} />
+              <Route
+                path="/login"
+                element={<LogInForm setUser={setUser} setUserId={setUserId} />}
+              />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
               <Route

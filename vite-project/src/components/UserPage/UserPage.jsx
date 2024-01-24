@@ -14,8 +14,11 @@ function UserPage() {
   const [editProfile, setEditProfile] = useState(null);
 
   useEffect(() => {
-    fetchReviewsData();
-    fetchUserData();
+    const fetchData = async () => {
+      await fetchReviewsData();
+      await fetchUserData();
+    };
+    fetchData();
   }, []);
 
   const BASE_URL = "http://localhost:3000/users";

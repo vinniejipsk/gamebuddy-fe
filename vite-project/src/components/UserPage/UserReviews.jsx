@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function UserReviews({ reviews }) {
-  console.log(reviews);
+  // console.log(reviews);
   return (
     reviews &&
     reviews.map((review) => {
