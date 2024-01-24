@@ -16,3 +16,13 @@ export async function updateReview(reviewId, reviewData) {
     throw error;
   }
 }
+
+export async function deleteReview(reviewId) {
+  try {
+    const response = await reviewsAPI.deleteReview(reviewId);
+    return response;
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    throw error;
+  }
+}

@@ -27,6 +27,7 @@ export default function CreateReviewForm() {
 
   useEffect(() => {
     const user = getUser();
+    console.log(getUser);
     if (user) {
       // Assuming 'user' contains the username or user ID
       setReviewForm((prevState) => ({ ...prevState, userId: user }));
@@ -57,10 +58,10 @@ export default function CreateReviewForm() {
 
     // Retrieve the token and decode its payload
     const token = getToken();
-    const payload = token
-      ? JSON.parse(atob(token.split(".")[1])).payload
-      : null;
-
+    console.log(token)
+    const payload = token ? JSON.parse(atob(token.split(".")[1])).payload : null;
+    console.log(payload)
+  
     // Check if the payload exists and has the user ID
     if (payload && payload._id) {
       // Update the review form with the user ID

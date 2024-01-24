@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { updateReview } from '../../service/reviews';
+import { deleteReview, updateReview } from '../../service/reviews';
+
 
 export default function UpdateReviewForm() {
   const [reviewData, setReviewData] = useState({
@@ -23,12 +24,18 @@ export default function UpdateReviewForm() {
           throw new Error('Failed to fetch review');
         }
         const data = await response.json();
-        setReviewData(data);
+        setReviewData({
+          game: data.game || '',
+          rating: data.rating || '',
+          platform: data.platform || '',
+          releaseYear: data.releaseYear || '',
+          description: data.description || '',
+        });
       } catch (error) {
         setError(error.message);
       }
     };
-
+  
     fetchReview();
   }, [reviewId]);
 
@@ -38,6 +45,16 @@ export default function UpdateReviewForm() {
       ...prevData,
       [name]: value
     }));
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteReview(reviewId); // Use the imported deleteReview function
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      // Handle error (e.g., show an error message)
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -102,6 +119,9 @@ export default function UpdateReviewForm() {
         ></textarea>
       </div>
       <button type="submit">Update Review</button>
+      <button type="button" onClick={handleDelete}>
+      Delete Review
+    </button>
     </form>
   );
 }
