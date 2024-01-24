@@ -14,9 +14,18 @@ import {
   Search as SearchIcon,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { getToken } from "../../util/security";
 
-export default function NavBar({ userId }) {
-  // console.log(userId);
+export default function NavBar() {
+  const token = getToken();
+  console.log("Token from local storage:", token);
+  const userId = token
+    ? JSON.parse(atob(token.split(".")[1])).payload._id
+    : null; // Decode JWT to get userId
+  console.log("Decoded userId:", userId);
+
+  console.log("nav", userId);
+
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>

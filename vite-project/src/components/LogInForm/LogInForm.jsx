@@ -81,6 +81,8 @@ export default function LogInForm({ setUser }) {
       }
       // render welcome message
       setUser(getUser());
+
+      // retrieve user id from token
     } catch (e) {
       console.log(e);
     }
