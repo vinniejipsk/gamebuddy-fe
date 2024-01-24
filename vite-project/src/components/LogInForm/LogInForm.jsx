@@ -55,14 +55,14 @@ export default function LogInForm({ setUser }) {
       const formData = { ...formState };
       delete formData.error;
       delete formData.confirm;
-      console.log(formData);
+      // console.log(formData);
       // const data = new FormData(event.currentTarget);
       // console.log({
       //   email: data.get("email"),
       //   password: data.get("password"),
       // });
       const loginDetails = await getLoginDetails(formData.email);
-      console.log(loginDetails);
+      // console.log(loginDetails);
 
       const hashedPassword = hashDataWithSaltRounds(
         formData.password,
@@ -71,10 +71,10 @@ export default function LogInForm({ setUser }) {
       );
       formData.password = hashedPassword;
       const token = await loginUser(formData);
-      console.log(token);
+      // console.log(token);
       if (token.success === false) {
         setLogInStatus(token.error);
-        console.log(logInStatus);
+        // console.log(logInStatus);
       } else {
         // store token in localStorage
         storeToken(token.data);

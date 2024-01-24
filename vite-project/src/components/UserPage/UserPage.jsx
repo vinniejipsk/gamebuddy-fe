@@ -3,6 +3,7 @@ import UserReviews from "./UserReviews";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditProfile from "./EditProfile";
+import { getToken } from "../../util/security";
 // import { getUserReviews } from "../../api/users";
 
 function UserPage() {
@@ -10,42 +11,7 @@ function UserPage() {
   const { userId } = useParams();
   // console.log(userId);
   const [userData, setUserData] = useState({});
-  // console.log(userReviews);
-  // console.log(userData);
   const [editProfile, setEditProfile] = useState(null);
-
-  // const user = {
-  //   name: "John Doe",
-  //   email: "john.doe@example.com",
-  //   avatarUrl: "https://example.com/avatar.jpg",
-  // };
-
-  // const userReviews = [
-  //   {
-  //     id: 1,
-  //     title: "Super Mario",
-  //     description: "mario mario",
-  //     image: "https://source.unsplash.com/random?wallpapers",
-  //     imageText: "Game Image",
-  //     linkText: "Continue reading…",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Counter Strike",
-  //     description: "pewpewpew",
-  //     image: "https://source.unsplash.com/random?wallpapers",
-  //     imageText: "blood",
-  //     linkText: "lorem ipsum",
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "FIFA",
-  //     description: "olleh",
-  //     image: "https://source.unsplash.com/random?wallpapers",
-  //     imageText: "goal",
-  //     linkText: "Continue reading…",
-  //   },
-  // ];
 
   useEffect(() => {
     fetchReviewsData();
@@ -55,6 +21,14 @@ function UserPage() {
   const BASE_URL = "http://localhost:3000/users";
 
   async function fetchReviewsData() {
+    // Retrieve the token and decode its payload
+    // const token = getToken();
+    // const payload = token
+    //   ? JSON.parse(atob(token.split(".")[1])).payload
+    //   : null;
+    // console.log("token", token);
+    // console.log("payload", payload);
+
     // by right should get userId from the database
     // (store userId in localStorage upon signup)
     //   const response = await getUserReviews(userId);
@@ -62,28 +36,34 @@ function UserPage() {
     //testing purpose - see all reviews
     // const response = await getUserReviews();
     // const getUserReviewsURL = BASE_URL + `/${userId}/reviews`;
-    const getUserReviewsURL = BASE_URL + "/reviews";
+    // if (payload && payload._id) {
+    //   const userId = payload._id;
+
+    console.log("USER PAGE: user id from payload: ", userId);
+    const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
+    console.log(getUserReviewsURL);
     const res = await fetch(getUserReviewsURL, {
       method: "GET",
       // headers: {
       //   Authorization: `Bearer ${TOKEN}`,
       // },
     });
-
+    console.log("response for get user reviews: ", res);
     const data = await res.json();
     setUserReviews(data.user);
+    // }
   }
 
   async function fetchUserData() {
-    console.log(userId);
+    // console.log(userId);
     const getUserDataURL = BASE_URL + `/${userId}`;
     const res = await fetch(getUserDataURL, {
       method: "GET",
     });
-    console.log(res);
+    // console.log(res);
     const data = await res.json();
-    console.log(data);
-    console.log(data.user);
+    // console.log(data);
+    // console.log(data.user);
     setUserData(data.user);
   }
   // console.log(userData);
@@ -94,7 +74,7 @@ function UserPage() {
   // }
 
   async function updateUserData(data) {
-    console.log(userId);
+    // console.log(userId);
     const putUserDataURL = BASE_URL + `/${userId}`;
     const response = await fetch(putUserDataURL, {
       method: "PUT",
@@ -103,7 +83,7 @@ function UserPage() {
       },
       body: JSON.stringify(data),
     });
-    console.log(response);
+    // console.log(response);
 
     if (response.ok) {
       console.log("User data updated successfully");

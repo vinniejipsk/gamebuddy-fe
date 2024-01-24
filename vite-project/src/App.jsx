@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
 import { getUser, logOut } from "./service/users";
@@ -12,10 +12,25 @@ import CreateReviewForm from "./components/CreateReviewForm/CreateReviewForm";
 import UserPage from "./components/UserPage/UserPage";
 import ViewReviewPage from "./components/ViewReviewPage/ViewReviewPage";
 import UpdateReviewForm from "./components/CreateReviewForm/UpdateReviewForm";
+import { getToken } from "./util/security";
 
 function App() {
-  // const [user, setUser] = useState(getUser);
   const [user, setUser] = useState(getUser());
+  const [userId, setUserId] = useState("");
+
+  // retrieve user id when logged in
+  useEffect(() => {
+    const token = getToken();
+    const payload = token
+      ? JSON.parse(atob(token.split(".")[1])).payload
+      : null;
+    console.log("payload", payload);
+    if (payload && payload._id) {
+      setUserId(payload._id);
+    }
+  }, []);
+
+  // console.log("USERID:", userId);
 
   function handleLogOut() {
     logOut();
@@ -24,7 +39,7 @@ function App() {
 
   return (
     <main className="App">
-      <NavBar />
+      <NavBar userId={userId} />
       <div style={{ marginTop: "64px" }}>
         {user ? (
           <>
@@ -33,7 +48,10 @@ function App() {
               <Route path="/user/:userId" element={<UserPage />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
-              <Route path="/reviews/:reviewId/edit" element={<UpdateReviewForm />} />
+              <Route
+                path="/reviews/:reviewId/edit"
+                element={<UpdateReviewForm />}
+              />
             </Routes>
             <h1>Welcome, {user}!</h1>
             <button onClick={handleLogOut}>Log Out</button>
@@ -49,7 +67,10 @@ function App() {
               <Route path="/login" element={<LogInForm setUser={setUser} />} />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
-              <Route path="/reviews/:reviewId/edit" element={<UpdateReviewForm />} />
+              <Route
+                path="/reviews/:reviewId/edit"
+                element={<UpdateReviewForm />}
+              />
             </Routes>
           </>
         )}
