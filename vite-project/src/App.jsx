@@ -18,6 +18,7 @@ function App() {
   const [user, setUser] = useState(getUser());
   const [userId, setUserId] = useState("");
 
+  // retrieve user id when logged in
   useEffect(() => {
     const token = getToken();
     const payload = token

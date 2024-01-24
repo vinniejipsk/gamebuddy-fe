@@ -16,7 +16,7 @@ import {
 import { Link } from "react-router-dom";
 
 export default function NavBar({ userId }) {
-  console.log(userId);
+  // console.log(userId);
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>
