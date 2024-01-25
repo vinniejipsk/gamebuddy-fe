@@ -53,34 +53,41 @@ export default function CreateReviewForm() {
     setReviewForm({ ...reviewForm, rating: newRating });
   };
 
+  function validateSelection(input, list) {
+    return list.some(item => item.label === input) ? input : `Unknown ${input}`;
+  }  
+
   async function handleSubmit(evt) {
     evt.preventDefault();
-
+  
     // Retrieve the token and decode its payload
     const token = getToken();
-    console.log(token)
     const payload = token ? JSON.parse(atob(token.split(".")[1])).payload : null;
-    console.log(payload)
   
-    // Check if the payload exists and has the user ID
     if (payload && payload._id) {
-      // Update the review form with the user ID
-      const updatedReviewForm = { ...reviewForm, userId: payload._id };
-
+      // Validate selections
+      const validatedReviewForm = {
+        ...reviewForm,
+        userId: payload._id,
+        game: validateSelection(reviewForm.game, gamelist),
+        platform: validateSelection(reviewForm.platform, platformlist),
+        rating: ratinglist.includes(reviewForm.rating) ? reviewForm.rating : "Unknown rating"
+      };
+  
       try {
         if (
-          !updatedReviewForm.game ||
-          !updatedReviewForm.platform ||
-          updatedReviewForm.rating === null ||
-          !updatedReviewForm.description
+          !validatedReviewForm.game ||
+          !validatedReviewForm.platform ||
+          validatedReviewForm.rating === null ||
+          !validatedReviewForm.description
         ) {
           alert("Please fill in all fields");
           return;
         }
-
-        const response = await submitReview(updatedReviewForm);
+  
+        const response = await submitReview(validatedReviewForm);
         console.log("Review submitted successfully", response);
-
+  
         // Clear the form after submission
         setReviewForm({
           game: null,
@@ -97,7 +104,7 @@ export default function CreateReviewForm() {
       console.error("User is not logged in");
       alert("Please log in to submit a review");
     }
-  }
+  }  
 
   return (
     <ThemeProvider theme={defaultTheme}>
