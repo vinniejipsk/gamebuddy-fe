@@ -77,7 +77,7 @@ function UserPage() {
   // }
 
   async function updateUserData(data) {
-    // console.log(userId);
+    console.log('update used id test', userId);
     const token = localStorage.getItem("token");
     console.log("update user token: ", token);
 

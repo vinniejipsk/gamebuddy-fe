@@ -6,10 +6,10 @@ export async function submitReview(reviewData) {
     return Data;
   }
 
-export async function updateReview(reviewId, reviewData) {
-  console.log("service", reviewData);
+export async function updateReview(reviewId, reviewData, userId) {
+  console.log("userId test", userId);
   try {
-    const updatedData = await reviewsAPI.updateReview(reviewId, reviewData);
+    const updatedData = await reviewsAPI.updateReview(reviewId, reviewData, userId);
     return updatedData;
   } catch (error) {
     console.error("Error updating review: ", error);
@@ -17,9 +17,9 @@ export async function updateReview(reviewId, reviewData) {
   }
 }
 
-export async function deleteReview(reviewId) {
+export async function deleteReview(reviewId, userId) {
   try {
-    const response = await reviewsAPI.deleteReview(reviewId);
+    const response = await reviewsAPI.deleteReview(reviewId, userId);
     return response;
   } catch (error) {
     console.error("Error deleting review:", error);
