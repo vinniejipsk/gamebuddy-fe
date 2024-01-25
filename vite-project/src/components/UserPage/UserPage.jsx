@@ -69,7 +69,7 @@ function UserPage() {
     // console.log(data.user);
     setUserData(data.user);
   }
-  // console.log(userData);
+  console.log(userData);
 
   // function handleEdit() {
   //   setEditProfile(true);
@@ -78,11 +78,15 @@ function UserPage() {
 
   async function updateUserData(data) {
     // console.log(userId);
+    const token = localStorage.getItem("token");
+    console.log("update user token: ", token);
+
     const putUserDataURL = BASE_URL + `/${userId}`;
     const response = await fetch(putUserDataURL, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });

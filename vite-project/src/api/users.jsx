@@ -110,6 +110,28 @@ export async function loginUser(userData) {
   }
 }
 
+export async function logoutUser(token, userData) {
+  // Fetch uses an options object as a second arg to make requests
+  // other than basic GET requests, include data, headers, etc.
+  const logoutURL = BASE_URL + "/logout";
+  console.log(logoutURL);
+  const res = await fetch(logoutURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: token },
+    // Fetch requires data payloads to be stringified
+    // and assigned to a body property on the options object
+    body: JSON.stringify(userData),
+  });
+  // Check if request was successful
+  if (res.ok) {
+    // res.json() will resolve to the JWT
+    console.log(res);
+    return res.json();
+  } else {
+    throw new Error("Invalid Logout");
+  }
+}
+
 // export async function getUserReviews() {
 //   const getUserReviewsURL = BASE_URL + `/${userId}/reviews`;
 //   const res = await fetch(getUserReviewsURL, {

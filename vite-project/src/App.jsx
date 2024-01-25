@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { Routes, Route, Link } from "react-router-dom";
-import { getUser, logOut } from "./service/users";
+import { getUser, logoutUser } from "./service/users";
 
 import AuthPage from "./components/AuthPage/AuthPage";
 import LogInForm from "./components/LogInForm/LogInForm";
@@ -34,7 +34,8 @@ function App() {
   console.log("USERID:", userId);
 
   function handleLogOut() {
-    logOut();
+    // logOut();
+    logoutUser();
     setUser(null);
   }
 

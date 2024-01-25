@@ -6,8 +6,14 @@ function EditProfile({ userData, setUserData, updateUserData }) {
     e.preventDefault();
     updateUserData(formUserData);
     setUserData(formUserData);
+    // console.log("edit");
+    // console.log("userdata id", userData._id);
+    // // const userId = userData._id;
+    // console.log(userId);
   }
 
+  // const userId = userData._id;
+  // console.log(userId);
   return (
     <form>
       <label>Name</label>
