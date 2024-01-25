@@ -21,7 +21,7 @@ function UserPage() {
     fetchData();
   }, []);
 
-  const BASE_URL = "http://localhost:3000/users";
+  const BASE_URL = "https://gamebuddy-mnj1.onrender.com/users";
 
   async function fetchReviewsData() {
     // Retrieve the token and decode its payload

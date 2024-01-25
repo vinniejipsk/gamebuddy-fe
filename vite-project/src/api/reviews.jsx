@@ -1,5 +1,5 @@
 // This is the base path of the Express route we'll define
-const BASE_URL = "http://localhost:3000/reviews";
+const BASE_URL = "https://gamebuddy-mnj1.onrender.com/reviews";
 
 export async function createReview(reviewData) {
   const createURL = BASE_URL + '/create';
