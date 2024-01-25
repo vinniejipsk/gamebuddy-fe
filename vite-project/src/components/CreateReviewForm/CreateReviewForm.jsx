@@ -24,17 +24,12 @@ export default function CreateReviewForm() {
     rating: null,
     description: "",
   });
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     const user = getUser();
-    console.log(getUser);
     if (user) {
-      // Assuming 'user' contains the username or user ID
       setReviewForm((prevState) => ({ ...prevState, userId: user }));
-      console.log("User logged in useEffect");
-    } else {
-      console.log("User is not logged in useEffect");
-      // Optionally, redirect to login page or disable form
     }
   }, []);
 
@@ -44,67 +39,60 @@ export default function CreateReviewForm() {
   };
 
   const handleAutocompleteChange = (name) => (event, value) => {
-    const newValue = value && value.label ? value.label : value;
-    setReviewForm({ ...reviewForm, [name]: newValue });
+    setReviewForm({ ...reviewForm, [name]: value ? value.label : null });
   };
 
   const handleRatingChange = (event, value) => {
-    const newRating = value && value.label ? parseInt(value.label, 10) : value;
-    setReviewForm({ ...reviewForm, rating: newRating });
+    setReviewForm({ ...reviewForm, rating: value });
   };
 
-  function validateSelection(input, list) {
-    return list.some(item => item.label === input) ? input : `Unknown ${input}`;
-  }  
+  const validateForm = () => {
+    const errors = {};
+    if (!gamelist.find((game) => game.label === reviewForm.game)) {
+      errors.game = "Unknown game";
+    }
+    if (!platformlist.find((platform) => platform.label === reviewForm.platform)) {
+      errors.platform = "Unknown platform";
+    }
+    if (!ratinglist.includes(reviewForm.rating)) {
+      errors.rating = "Invalid rating";
+    }
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-  
-    // Retrieve the token and decode its payload
+
     const token = getToken();
     const payload = token ? JSON.parse(atob(token.split(".")[1])).payload : null;
   
     if (payload && payload._id) {
-      // Validate selections
-      const validatedReviewForm = {
-        ...reviewForm,
-        userId: payload._id,
-        game: validateSelection(reviewForm.game, gamelist),
-        platform: validateSelection(reviewForm.platform, platformlist),
-        rating: ratinglist.includes(reviewForm.rating) ? reviewForm.rating : "Unknown rating"
-      };
-  
+      const updatedReviewForm = { ...reviewForm, userId: payload._id };
+
+      if (!validateForm()) {
+        return;
+      }
+
       try {
-        if (
-          !validatedReviewForm.game ||
-          !validatedReviewForm.platform ||
-          validatedReviewForm.rating === null ||
-          !validatedReviewForm.description
-        ) {
-          alert("Please fill in all fields");
-          return;
-        }
-  
-        const response = await submitReview(validatedReviewForm);
-        console.log("Review submitted successfully", response);
-  
-        // Clear the form after submission
+        const response = await submitReview(updatedReviewForm);
+        // Reset the form on successful submission
         setReviewForm({
+          userId: "",
           game: null,
           platform: null,
           rating: null,
           description: "",
-          userId: "",
         });
+        setFormErrors({});
       } catch (e) {
         console.error("Error submitting review", e);
         alert("Error submitting review");
       }
     } else {
-      console.error("User is not logged in");
       alert("Please log in to submit a review");
     }
-  }  
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -139,7 +127,7 @@ export default function CreateReviewForm() {
                     option.label === value
                   }
                   renderInput={(params) => (
-                    <TextField {...params} label="Game" />
+                    <TextField {...params} label="Game" error={!!formErrors.game} helperText={formErrors.game || ""} />
                   )}
                 />
               </Grid>
@@ -154,7 +142,7 @@ export default function CreateReviewForm() {
                     option.label === value
                   }
                   renderInput={(params) => (
-                    <TextField {...params} label="Platforms" />
+                    <TextField {...params} label="Platform" error={!!formErrors.platform} helperText={formErrors.platform || ""} />
                   )}
                 />
               </Grid>
@@ -167,7 +155,7 @@ export default function CreateReviewForm() {
                   onChange={handleRatingChange}
                   getOptionLabel={(option) => option.toString()}
                   renderInput={(params) => (
-                    <TextField {...params} label="Rating" />
+                    <TextField {...params} label="Rating" error={!!formErrors.rating} helperText={formErrors.rating || ""} />
                   )}
                 />
               </Grid>
@@ -199,6 +187,7 @@ export default function CreateReviewForm() {
     </ThemeProvider>
   );
 }
+
 
 const gamelist = [
   { label: "City of God", year: 2002 },
@@ -248,3 +237,4 @@ const platformlist = [
 ];
 
 const ratinglist = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
