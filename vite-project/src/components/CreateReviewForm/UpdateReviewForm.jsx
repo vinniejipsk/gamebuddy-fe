@@ -15,6 +15,7 @@ const defaultTheme = createTheme();
 
 export default function UpdateReviewForm() {
   const [reviewData, setReviewData] = useState({
+    userId: '',
     game: '',
     rating: '',
     platform: '',
@@ -24,6 +25,10 @@ export default function UpdateReviewForm() {
   const [error, setError] = useState('');
   const { reviewId } = useParams();
   const navigate = useNavigate();
+  const userId = reviewData.userId;
+
+  // const userId = localStorage.getItem('_id');
+  // console.log("UserId:", userId);
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -33,13 +38,16 @@ export default function UpdateReviewForm() {
           throw new Error('Failed to fetch review');
         }
         const data = await response.json();
+        console.log('test', data)
         setReviewData({
+          userId: data.userId || '',
           game: data.game || '',
           rating: data.rating || '',
           platform: data.platform || '',
           releaseYear: data.releaseYear || '',
           description: data.description || '',
         });
+        // console.log(reviewData)
       } catch (error) {
         setError(error.message);
       }
@@ -68,7 +76,7 @@ export default function UpdateReviewForm() {
 
   const handleDelete = async () => {
     try {
-      await deleteReview(reviewId);
+      await deleteReview(reviewId, userId);
       navigate("/");
     } catch (error) {
       console.error("Error deleting review:", error);
@@ -92,7 +100,7 @@ export default function UpdateReviewForm() {
     };
   
     try {
-      const updatedReview = await updateReview(reviewId, validatedReviewData);
+      const updatedReview = await updateReview(reviewId, validatedReviewData, userId);
       navigate(`/reviews/${reviewId}`);
     } catch (error) {
       setError(error.message);

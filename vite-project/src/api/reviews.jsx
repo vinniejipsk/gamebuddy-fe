@@ -40,9 +40,10 @@ export async function getReviews() {
   }
 }
 
-export async function updateReview(reviewId, reviewData) {
-  const updateURL = `${BASE_URL}/${reviewId}/edit`;
-  const token = localStorage.getItem('token'); // Get the stored JWT token
+export async function updateReview(reviewId, reviewData, userId) {
+  const updateURL = `${BASE_URL}/${reviewId}/edit?userId=${userId}`;
+  const token = localStorage.getItem('token'); 
+  console.log(token)
 
   try {
     const res = await fetch(updateURL, {
@@ -66,9 +67,9 @@ export async function updateReview(reviewId, reviewData) {
   }
 }
 
-export async function deleteReview(reviewId) {
-  const deleteURL = `${BASE_URL}/${reviewId}`;
-  const token = localStorage.getItem('token');
+export async function deleteReview(reviewId, userId) {
+  const deleteURL = `${BASE_URL}/${reviewId}?userId=${userId}`;
+  const token = localStorage.getItem('token'); 
 
   try {
     const response = await fetch(deleteURL, {
