@@ -11,7 +11,7 @@ export default function ViewPageComponent() {
 
     const fetchReview = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/reviews/${reviewId}`);
+        const response = await fetch(`https://gamebuddy-mnj1.onrender.com/reviews/${reviewId}`);
         // REMEMBER TO CHANGE TO BACKEND URL
         if (!response.ok) {
           throw new Error('Failed to fetch review');
