@@ -26,6 +26,7 @@ export default function MainPage() {
           rating: reviews[0].rating,
           releaseYear: reviews[0].releaseYear,
           platform: reviews[0].platform,
+          reviewId: reviews[0]._id,
         });
         const additionalPosts = reviews.slice(1, 9);
         if (Array.isArray(additionalPosts)) {
@@ -53,6 +54,7 @@ export default function MainPage() {
                   rating={review.rating}
                   releaseYear={review.releaseYear}
                   platform={review.platform}
+                  reviewId={review._id}
                 />
               </Grid>
             ))}

@@ -3,9 +3,13 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
+
+import { Link } from 'react-router-dom';
 
 function MainFeaturedPost(props) {
   const { post } = props;
+  const theme = useTheme();
 
   return (
     <Paper
@@ -50,6 +54,19 @@ function MainFeaturedPost(props) {
             <Typography variant="h6" color="text.secondary">
               Rating: {post.rating} / Release Year: {post.releaseYear} / Platform: {post.platform}
             </Typography>
+            <Link to={`/reviews/${post.reviewId}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Typography 
+                variant="subtitle1" 
+                color="primary" 
+                style={{ 
+                  cursor: 'pointer', 
+                  marginTop: '16px', // Adjust top margin 
+                  fontSize: '1.4rem' // Set specific font size 
+                }}
+              >
+                Learn More
+              </Typography>
+            </Link>
           </Box>
         </Grid>
       </Grid>

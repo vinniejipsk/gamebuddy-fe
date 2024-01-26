@@ -7,10 +7,13 @@ export default function ViewPageComponent() {
 
   const navigate = useNavigate();
 
+  // REAL URL
   const BASE_URL = "https://gamebuddy-mnj1.onrender.com/reviews";
+  // TEST URL
+  // const BASE_URL = "http://localhost:3000/reviews";
 
   useEffect(() => {
-
+    console.log("Fetched Review ID:", reviewId);
     const fetchReview = async () => {
       try {
         const response = await fetch(BASE_URL + `/${reviewId}`);

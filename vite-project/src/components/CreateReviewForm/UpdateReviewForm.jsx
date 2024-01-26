@@ -26,7 +26,10 @@ export default function UpdateReviewForm() {
   const { reviewId } = useParams();
   const navigate = useNavigate();
   const userId = reviewData.userId;
+  // REAL URL
   const BASE_URL = "https://gamebuddy-mnj1.onrender.com/reviews";
+  // TEST URL
+  // const BASE_URL = "http://localhost:3000/reviews";
 
   // const userId = localStorage.getItem('_id');
   // console.log("UserId:", userId);
