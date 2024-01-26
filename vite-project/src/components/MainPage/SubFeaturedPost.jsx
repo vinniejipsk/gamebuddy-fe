@@ -6,8 +6,10 @@ import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import { Link } from 'react-router-dom';
+
 function SubFeaturedPost(props) {
-  const { game, description, rating, releaseYear, platform, image } = props;
+  const { game, description, rating, releaseYear, platform, image, reviewId } = props;
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -28,7 +30,9 @@ function SubFeaturedPost(props) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
+        <Link to={`/reviews/${reviewId}`}>
+          <Button size="small">Learn More</Button>
+        </Link>
       </CardActions>
     </Card>
   );
