@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { updateUserData } from "../../service/users";
+import { useDeprecatedInvertedScale } from "framer-motion";
 
-function EditProfile({ userData, setUserData, updateUserData }) {
+function EditProfile({ userData, setUserData }) {
   const [formUserData, setFormUserData] = useState({});
+  const { userId } = useParams();
+  console.log("EDIT PROFILE USER ID:", userId);
+
   function handleSubmit(e) {
     e.preventDefault();
-    updateUserData(formUserData);
+    updateUserData(formUserData, userId);
     setUserData(formUserData);
     // console.log("edit");
     // console.log("userdata id", userData._id);
@@ -33,12 +39,10 @@ function EditProfile({ userData, setUserData, updateUserData }) {
       <input
         value={formUserData.email || ""}
         onChange={(e) => {
-          console.log(e.target.value);
           setFormUserData({
             ...formUserData,
             email: e.target.value,
           });
-          console.log(formUserData);
         }}
       />
       <br />

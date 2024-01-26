@@ -36,7 +36,6 @@ function Copyright(props) {
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function LogInForm({ setUser }) {
@@ -55,14 +54,9 @@ export default function LogInForm({ setUser }) {
       const formData = { ...formState };
       delete formData.error;
       delete formData.confirm;
-      // console.log(formData);
-      // const data = new FormData(event.currentTarget);
-      // console.log({
-      //   email: data.get("email"),
-      //   password: data.get("password"),
-      // });
+      console.log("formData ---------", formData);
       const loginDetails = await getLoginDetails(formData.email);
-      // console.log(loginDetails);
+      console.log("LOGINDETAILSSDFS _____:", loginDetails);
 
       const hashedPassword = hashDataWithSaltRounds(
         formData.password,

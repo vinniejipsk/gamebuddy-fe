@@ -18,13 +18,14 @@ import { getToken } from "../../util/security";
 
 export default function NavBar() {
   const token = getToken();
-  console.log("Token from local storage:", token);
   const userId = token
     ? JSON.parse(atob(token.split(".")[1])).payload._id
     : null; // Decode JWT to get userId
-  console.log("Decoded userId:", userId);
+  const username = token
+    ? JSON.parse(atob(token.split(".")[1])).payload.user
+    : "guest!";
 
-  console.log("nav", userId);
+  // console.log("paylodadsd", JSON.parse(atob(token.split(".")[1])).payload);
 
   return (
     <>
@@ -41,7 +42,7 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Find the reviewed games you like!
+              Welcome, {username}!
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", marginRight: 4 }}>
