@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { updateUserData } from "../../service/users";
-import { useDeprecatedInvertedScale } from "framer-motion";
 
 function EditProfile({ userData, setUserData }) {
   const [formUserData, setFormUserData] = useState({});
