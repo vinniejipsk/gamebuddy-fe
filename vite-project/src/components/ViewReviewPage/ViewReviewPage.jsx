@@ -7,11 +7,13 @@ export default function ViewPageComponent() {
 
   const navigate = useNavigate();
 
+  const BASE_URL = "https://gamebuddy-mnj1.onrender.com/reviews";
+
   useEffect(() => {
 
     const fetchReview = async () => {
       try {
-        const response = await fetch(`https://gamebuddy-mnj1.onrender.com/reviews/${reviewId}`);
+        const response = await fetch(BASE_URL + `/${reviewId}`);
         // REMEMBER TO CHANGE TO BACKEND URL
         if (!response.ok) {
           throw new Error('Failed to fetch review');
