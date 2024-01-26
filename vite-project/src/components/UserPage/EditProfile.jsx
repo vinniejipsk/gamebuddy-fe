@@ -5,32 +5,23 @@ import { updateUserData } from "../../service/users";
 function EditProfile({ userData, setUserData }) {
   const [formUserData, setFormUserData] = useState({});
   const { userId } = useParams();
-  console.log("EDIT PROFILE USER ID:", userId);
 
   function handleSubmit(e) {
     e.preventDefault();
     updateUserData(formUserData, userId);
     setUserData(formUserData);
-    // console.log("edit");
-    // console.log("userdata id", userData._id);
-    // // const userId = userData._id;
-    // console.log(userId);
   }
 
-  // const userId = userData._id;
-  // console.log(userId);
   return (
     <form>
       <label>Name</label>
       <input
         value={formUserData.name || ""}
         onChange={(e) => {
-          console.log(e.target.value);
           setFormUserData({
             ...formUserData,
             name: e.target.value,
           });
-          console.log(formUserData);
         }}
       />
       <br />

@@ -11,7 +11,6 @@ export function hashData(data) {
     CryptoJS.enc.Base64
   );
   var iterations = getRndInteger(MIN_ITERATIONS, MAX_ITERATIONS);
-  // console.log(data, salt, iterations);
   var hash = CryptoJS.PBKDF2(data, salt, {
     keySize: KEY_SIZE,
     iterations: iterations,
@@ -40,8 +39,6 @@ export function getToken() {
   if (!token) return null;
   // Obtain the payload of the token
   const payload = JSON.parse(atob(token.split(".")[1]));
-  console.log(payload);
-  console.log(payload.exp);
   // A JWT's exp is expressed in seconds, not milliseconds, so convert
   if (payload.exp < Date.now() / 1000) {
     // Token has expired - remove it from localStorage

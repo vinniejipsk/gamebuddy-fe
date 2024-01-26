@@ -34,54 +34,26 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUpForm() {
   const [formState, setFormState] = useState({});
-  // const [disable, setDisable] = useState(true);
   const [signUpStatus, setSignUpStatus] = useState();
 
   function handleChange(evt) {
     var currForm = formState;
     currForm[evt.target.name] = evt.target.value;
-    // setDisable(checkPassword());
     setFormState(currForm);
   }
 
-  // make sure check and password is the same
-  // function checkPassword() {
-  //   // password validation
-  //   // must have at least 1 uppercase, 1 lowercase, 1 special
-  //   var currForm = formState;
-  //   if (!currForm.password) {
-  //     return true;
-  //   }
-  //   if (!currForm.confirm) {
-  //     return true;
-  //   }
-  //   if (currForm.password !== currForm.confirm) {
-  //     console.log(currForm.password);
-  //     console.log(currForm.confirm);
-  //     return true;
-  //   }
-  //   return false;
-  // }
-
   function hashPassword() {
-    console.log(formState);
     var currForm = formState;
-    console.log(formState);
     if (currForm.password) {
-      console.log(currForm.password);
       var hash = hashData(currForm.password);
       currForm.password = hash.hash;
       currForm.salt = hash.salt;
       currForm.iterations = hash.iterations;
-      console.log(formState);
     }
-    console.log(formState);
   }
 
   async function handleSubmit(evt) {
@@ -93,9 +65,7 @@ export default function SignUpForm() {
       const formData = { ...formState };
       delete formData.error;
       delete formData.confirm;
-      // console.log(formData)
       const user = await signUp(formData);
-      console.log(user);
       setSignUpStatus(user);
     } catch (e) {
       console.log(e);
@@ -150,30 +120,6 @@ export default function SignUpForm() {
                   onChange={handleChange}
                 />
               </Grid>
-              {/* <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                  onChange={handleChange}
-                />
-              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
@@ -197,18 +143,6 @@ export default function SignUpForm() {
                   onChange={handleChange}
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="confirm-password"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirm-password"
-                  autoComplete="new-password"
-                  onChange={handleChange}
-                />
-              </Grid> */}
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -223,7 +157,6 @@ export default function SignUpForm() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              // disabled={disable}
             >
               Sign Up
             </Button>

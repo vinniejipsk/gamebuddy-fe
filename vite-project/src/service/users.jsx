@@ -4,7 +4,6 @@ import { getToken } from "../util/security";
 export async function signUp(userData) {
   // Delegate the network request code to the users-api.js API module
   // which will ultimately return a JSON Web Token (JWT)
-  console.log("service", userData);
   const token = await usersAPI.signUp(userData);
   // return whatever is sent back by the server
   return token;
@@ -13,7 +12,6 @@ export async function signUp(userData) {
 export async function getLoginDetails(email) {
   // Delegate the network request code to the users-api.js API module
   // which will ultimately return a JSON Web Token (JWT)
-  console.log("getLoginDetails", email);
   const loginDetails = await usersAPI.getLoginDetails(email);
   // return whatever is sent back by the server
   return loginDetails;
@@ -22,10 +20,8 @@ export async function getLoginDetails(email) {
 export async function loginUser(userData) {
   // Delegate the network request code to the users-api.js API module
   // which will ultimately return a JSON Web Token (JWT)
-  console.log("loginUser", userData);
   const res = await usersAPI.loginUser(userData);
   // Baby step by returning whatever is sent back by the server
-  console.log(res); // res.data = jwt
   return res;
 }
 

@@ -45,7 +45,6 @@ export async function getReviews() {
 export async function updateReview(reviewId, reviewData, userId) {
   const updateURL = `${BASE_URL}/${reviewId}/edit?userId=${userId}`;
   const token = localStorage.getItem('token'); 
-  console.log(token)
 
   try {
     const res = await fetch(updateURL, {
