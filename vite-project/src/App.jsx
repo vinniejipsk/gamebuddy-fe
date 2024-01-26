@@ -25,17 +25,13 @@ function App() {
   // retrieve user id when logged in
   useEffect(() => {
     const token = getToken();
-    console.log(token);
     const payload = token
       ? JSON.parse(atob(token.split(".")[1])).payload
       : null;
-    console.log("payload", payload);
     if (payload && payload._id) {
       setUserId(payload._id);
     }
   }, []);
-
-  console.log("USERID:", userId);
 
   function handleLogOut() {
     // logOut();
@@ -64,10 +60,8 @@ function App() {
                 element={<UpdateReviewForm />}
               />
             </Routes>
-            <h1>Welcome, {userData.name}!</h1>
+            {/* <h1>Welcome, {userData.name}!</h1> */}
             <button onClick={handleLogOut}>Log Out</button>
-            <br />
-            <Link to="/">Browse Reviews</Link>
           </>
         ) : (
           <>

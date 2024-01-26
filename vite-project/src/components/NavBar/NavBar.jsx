@@ -21,6 +21,11 @@ export default function NavBar() {
   const userId = token
     ? JSON.parse(atob(token.split(".")[1])).payload._id
     : null; // Decode JWT to get userId
+  const username = token
+    ? JSON.parse(atob(token.split(".")[1])).payload.user
+    : "guest!";
+
+  // console.log("paylodadsd", JSON.parse(atob(token.split(".")[1])).payload);
 
   return (
     <>
@@ -37,7 +42,7 @@ export default function NavBar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" sx={{ flexGrow: 1 }}>
-              Find the reviewed games you like!
+              Welcome, {username}!
             </Typography>
 
             <Box sx={{ display: "flex", alignItems: "center", marginRight: 4 }}>
