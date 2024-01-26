@@ -31,9 +31,6 @@ export default function UpdateReviewForm() {
   // TEST URL
   // const BASE_URL = "http://localhost:3000/reviews";
 
-  // const userId = localStorage.getItem('_id');
-  // console.log("UserId:", userId);
-
   useEffect(() => {
     const fetchReview = async () => {
       try {
@@ -42,7 +39,6 @@ export default function UpdateReviewForm() {
           throw new Error('Failed to fetch review');
         }
         const data = await response.json();
-        console.log('test', data)
         setReviewData({
           userId: data.userId || '',
           game: data.game || '',
@@ -51,7 +47,6 @@ export default function UpdateReviewForm() {
           releaseYear: data.releaseYear || '',
           description: data.description || '',
         });
-        // console.log(reviewData)
       } catch (error) {
         setError(error.message);
       }

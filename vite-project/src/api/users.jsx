@@ -41,12 +41,8 @@ export async function getLoginDetails(email) {
   // Check if request was successful
   if (res.ok) {
     // res.json() will resolve to the JWT
-    console.log("GET LOGIN DETAILS RES: ", res);
     const data = await res.json();
-    console.log("GET RES JSON: ", data);
 
-    // const data = await res.json();
-    // console.log(data.user);
     return data;
   } else {
     throw new Error("Invalid User");
@@ -88,11 +84,6 @@ export async function loginUser(userData) {
   if (res.ok) {
     // res.json() will resolve to the JWT
     const data = await res.json();
-    // if (data.success === true) {
-    //   return data.data; //jwt
-    // } else {
-    //   return data.error;
-    // }
 
     return data;
   } else {
@@ -120,45 +111,26 @@ export async function logoutUser(token, userData) {
   }
 }
 
-// export async function getUserReviews() {
-//   const getUserReviewsURL = BASE_URL + `/${userId}/reviews`;
-//   const res = await fetch(getUserReviewsURL, {
-//     method: "GET",
-//     headers: {
-//       // Authorization: `Bearer ${TOKEN}`,
-//     },
-//   });
-// }
-
 export async function fetchReviewsData(userId) {
-  console.log("USER PAGE: user id from payload: ", userId);
   const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
-  console.log(getUserReviewsURL);
   const res = await fetch(getUserReviewsURL, {
     method: "GET",
   });
-  console.log("response for get user reviews: ", res);
   const data = await res.json();
   return data.user;
 }
 
 export async function fetchUserData(userId) {
-  // console.log(userId);
   const getUserDataURL = BASE_URL + `/${userId}`;
   const res = await fetch(getUserDataURL, {
     method: "GET",
   });
-  // console.log(res);
   const data = await res.json();
-  // console.log(data);
-  // console.log(data.user);
   return data.user;
 }
 
 export async function updateUserData(data, userId) {
-  console.log("update user USERID", userId);
   const token = localStorage.getItem("token");
-  console.log("update user token: ", token);
 
   const putUserDataURL = BASE_URL + `/${userId}`;
   const response = await fetch(putUserDataURL, {
@@ -169,7 +141,6 @@ export async function updateUserData(data, userId) {
     },
     body: JSON.stringify(data),
   });
-  // console.log(response);
 
   if (response.ok) {
     console.log("User data updated successfully");

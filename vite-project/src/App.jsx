@@ -19,9 +19,6 @@ function App() {
   const [userId, setUserId] = useState("");
   const [userData, setUserData] = useState({});
 
-  // pass userdata to loginform and render welcome message
-  console.log("APP USER DATA : ", userData);
-
   // retrieve user id when logged in
   useEffect(() => {
     const token = getToken();
@@ -34,7 +31,6 @@ function App() {
   }, []);
 
   function handleLogOut() {
-    // logOut();
     logoutUser();
     setUser(null);
   }
@@ -60,7 +56,6 @@ function App() {
                 element={<UpdateReviewForm />}
               />
             </Routes>
-            {/* <h1>Welcome, {userData.name}!</h1> */}
             <button onClick={handleLogOut}>Log Out</button>
           </>
         ) : (

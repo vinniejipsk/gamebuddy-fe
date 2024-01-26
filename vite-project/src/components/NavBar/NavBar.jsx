@@ -25,8 +25,6 @@ export default function NavBar() {
     ? JSON.parse(atob(token.split(".")[1])).payload.user
     : "guest!";
 
-  // console.log("paylodadsd", JSON.parse(atob(token.split(".")[1])).payload);
-
   return (
     <>
       <Box sx={{ flexGrow: 1 }}>

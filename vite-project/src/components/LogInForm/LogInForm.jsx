@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { getLoginDetails, getUser, loginUser } from "../../service/users";
 import { hashDataWithSaltRounds, storeToken } from "../../util/security";
@@ -35,7 +34,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function LogInForm({ setUser }) {
@@ -54,9 +52,7 @@ export default function LogInForm({ setUser }) {
       const formData = { ...formState };
       delete formData.error;
       delete formData.confirm;
-      console.log("formData ---------", formData);
       const loginDetails = await getLoginDetails(formData.email);
-      console.log("LOGINDETAILSSDFS _____:", loginDetails);
 
       const hashedPassword = hashDataWithSaltRounds(
         formData.password,
@@ -65,10 +61,8 @@ export default function LogInForm({ setUser }) {
       );
       formData.password = hashedPassword;
       const token = await loginUser(formData);
-      // console.log(token);
       if (token.success === false) {
         setLogInStatus(token.error);
-        // console.log(logInStatus);
       } else {
         // store token in localStorage
         storeToken(token.data);

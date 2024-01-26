@@ -13,7 +13,6 @@ export default function ViewPageComponent() {
   // const BASE_URL = "http://localhost:3000/reviews";
 
   useEffect(() => {
-    console.log("Fetched Review ID:", reviewId);
     const fetchReview = async () => {
       try {
         const response = await fetch(BASE_URL + `/${reviewId}`);
