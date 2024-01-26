@@ -41,10 +41,6 @@ export function getUserPayload() {
   return token ? JSON.parse(atob(token.split(".")[1])).payload : null;
 }
 
-// export function logOut() {
-//   localStorage.removeItem("token");
-// }
-
 export async function logoutUser() {
   const token = getToken();
   if (token) {
@@ -61,8 +57,3 @@ export async function logoutUser() {
   }
   return true;
 }
-
-// export function getUserReviews() {
-//   const token = usersAPI.getUserReviews();
-//   return token;
-// }

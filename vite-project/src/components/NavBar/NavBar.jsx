@@ -18,13 +18,9 @@ import { getToken } from "../../util/security";
 
 export default function NavBar() {
   const token = getToken();
-  console.log("Token from local storage:", token);
   const userId = token
     ? JSON.parse(atob(token.split(".")[1])).payload._id
     : null; // Decode JWT to get userId
-  console.log("Decoded userId:", userId);
-
-  console.log("nav", userId);
 
   return (
     <>

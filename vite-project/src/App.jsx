@@ -17,6 +17,10 @@ import { getToken } from "./util/security";
 function App() {
   const [user, setUser] = useState(getUser());
   const [userId, setUserId] = useState("");
+  const [userData, setUserData] = useState({});
+
+  // pass userdata to loginform and render welcome message
+  console.log("APP USER DATA : ", userData);
 
   // retrieve user id when logged in
   useEffect(() => {
@@ -47,7 +51,12 @@ function App() {
           <>
             <Routes>
               <Route path="/" element={<MainPage />} />
-              <Route path="/user/:userId" element={<UserPage />} />
+              <Route
+                path="/user/:userId"
+                element={
+                  <UserPage userData={userData} setUserData={setUserData} />
+                }
+              />
               <Route path="/reviews/create" element={<CreateReviewForm />} />
               <Route path="/reviews/:reviewId" element={<ViewReviewPage />} />
               <Route
@@ -55,7 +64,7 @@ function App() {
                 element={<UpdateReviewForm />}
               />
             </Routes>
-            <h1>Welcome, {user}!</h1>
+            <h1>Welcome, {userData.name}!</h1>
             <button onClick={handleLogOut}>Log Out</button>
             <br />
             <Link to="/">Browse Reviews</Link>

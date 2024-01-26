@@ -6,11 +6,11 @@ import EditProfile from "./EditProfile";
 import { getToken } from "../../util/security";
 // import { getUserReviews } from "../../api/users";
 
-function UserPage() {
+function UserPage({ userData, setUserData }) {
   const [userReviews, setUserReviews] = useState([]);
   const { userId } = useParams();
   // console.log(userId);
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
   const [editProfile, setEditProfile] = useState(null);
 
   useEffect(() => {
@@ -24,37 +24,15 @@ function UserPage() {
   const BASE_URL = "http://localhost:3000/users";
 
   async function fetchReviewsData() {
-    // Retrieve the token and decode its payload
-    // const token = getToken();
-    // const payload = token
-    //   ? JSON.parse(atob(token.split(".")[1])).payload
-    //   : null;
-    // console.log("token", token);
-    // console.log("payload", payload);
-
-    // by right should get userId from the database
-    // (store userId in localStorage upon signup)
-    //   const response = await getUserReviews(userId);
-
-    //testing purpose - see all reviews
-    // const response = await getUserReviews();
-    // const getUserReviewsURL = BASE_URL + `/${userId}/reviews`;
-    // if (payload && payload._id) {
-    //   const userId = payload._id;
-
     console.log("USER PAGE: user id from payload: ", userId);
     const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
     console.log(getUserReviewsURL);
     const res = await fetch(getUserReviewsURL, {
       method: "GET",
-      // headers: {
-      //   Authorization: `Bearer ${TOKEN}`,
-      // },
     });
     console.log("response for get user reviews: ", res);
     const data = await res.json();
     setUserReviews(data.user);
-    // }
   }
 
   async function fetchUserData() {
@@ -77,7 +55,7 @@ function UserPage() {
   // }
 
   async function updateUserData(data) {
-    console.log('update used id test', userId);
+    console.log("update used id test", userId);
     const token = localStorage.getItem("token");
     console.log("update user token: ", token);
 
