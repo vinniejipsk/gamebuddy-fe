@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EditProfile from "./EditProfile";
 import { getToken } from "../../util/security";
+import { fetchReviewsData, fetchUserData } from "../../service/users";
 // import { getUserReviews } from "../../api/users";
 
 function UserPage({ userData, setUserData }) {
@@ -15,38 +16,40 @@ function UserPage({ userData, setUserData }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchReviewsData();
-      await fetchUserData();
+      const reviews = await fetchReviewsData(userId);
+      setUserReviews(reviews);
+      const user = await fetchUserData(userId);
+      setUserData(user);
     };
     fetchData();
   }, []);
 
-  const BASE_URL = "http://localhost:3000/users";
+  // const BASE_URL = "http://localhost:3000/users";
 
-  async function fetchReviewsData() {
-    console.log("USER PAGE: user id from payload: ", userId);
-    const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
-    console.log(getUserReviewsURL);
-    const res = await fetch(getUserReviewsURL, {
-      method: "GET",
-    });
-    console.log("response for get user reviews: ", res);
-    const data = await res.json();
-    setUserReviews(data.user);
-  }
+  // async function fetchReviewsData() {
+  //   console.log("USER PAGE: user id from payload: ", userId);
+  //   const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
+  //   console.log(getUserReviewsURL);
+  //   const res = await fetch(getUserReviewsURL, {
+  //     method: "GET",
+  //   });
+  //   console.log("response for get user reviews: ", res);
+  //   const data = await res.json();
+  //   setUserReviews(data.user);
+  // }
 
-  async function fetchUserData() {
-    // console.log(userId);
-    const getUserDataURL = BASE_URL + `/${userId}`;
-    const res = await fetch(getUserDataURL, {
-      method: "GET",
-    });
-    // console.log(res);
-    const data = await res.json();
-    // console.log(data);
-    // console.log(data.user);
-    setUserData(data.user);
-  }
+  // async function fetchUserData() {
+  //   // console.log(userId);
+  //   const getUserDataURL = BASE_URL + `/${userId}`;
+  //   const res = await fetch(getUserDataURL, {
+  //     method: "GET",
+  //   });
+  //   // console.log(res);
+  //   const data = await res.json();
+  //   // console.log(data);
+  //   // console.log(data.user);
+  //   setUserData(data.user);
+  // }
   console.log(userData);
 
   // function handleEdit() {
@@ -54,28 +57,28 @@ function UserPage({ userData, setUserData }) {
 
   // }
 
-  async function updateUserData(data) {
-    console.log("update used id test", userId);
-    const token = localStorage.getItem("token");
-    console.log("update user token: ", token);
+  // async function updateUserData(data) {
+  //   console.log("update used id test", userId);
+  //   const token = localStorage.getItem("token");
+  //   console.log("update user token: ", token);
 
-    const putUserDataURL = BASE_URL + `/${userId}`;
-    const response = await fetch(putUserDataURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
-    // console.log(response);
+  //   const putUserDataURL = BASE_URL + `/${userId}`;
+  //   const response = await fetch(putUserDataURL, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //     body: JSON.stringify(data),
+  //   });
+  //   // console.log(response);
 
-    if (response.ok) {
-      console.log("User data updated successfully");
-    } else {
-      console.error("Failed to update user data");
-    }
-  }
+  //   if (response.ok) {
+  //     console.log("User data updated successfully");
+  //   } else {
+  //     console.error("Failed to update user data");
+  //   }
+  // }
 
   return (
     <>
@@ -118,7 +121,7 @@ function UserPage({ userData, setUserData }) {
               <EditProfile
                 userData={userData}
                 setUserData={setUserData}
-                updateUserData={updateUserData}
+                // updateUserData={updateUserData}
               />
             )}
           </Box>

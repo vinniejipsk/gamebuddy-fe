@@ -6,7 +6,7 @@ export async function signUp(userData) {
   // which will ultimately return a JSON Web Token (JWT)
   console.log("service", userData);
   const token = await usersAPI.signUp(userData);
-  // Baby step by returning whatever is sent back by the server
+  // return whatever is sent back by the server
   return token;
 }
 
@@ -15,7 +15,7 @@ export async function getLoginDetails(email) {
   // which will ultimately return a JSON Web Token (JWT)
   console.log("getLoginDetails", email);
   const loginDetails = await usersAPI.getLoginDetails(email);
-  // Baby step by returning whatever is sent back by the server
+  // return whatever is sent back by the server
   return loginDetails;
 }
 
@@ -56,4 +56,19 @@ export async function logoutUser() {
     return res;
   }
   return true;
+}
+
+export async function fetchReviewsData(userId) {
+  const res = await usersAPI.fetchReviewsData(userId);
+  return res;
+}
+
+export async function fetchUserData(userId) {
+  const res = await usersAPI.fetchUserData(userId);
+  return res;
+}
+
+export async function updateUserData(data, userId) {
+  const res = await usersAPI.updateUserData(data, userId);
+  return res;
 }

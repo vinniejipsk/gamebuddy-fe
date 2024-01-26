@@ -129,3 +129,51 @@ export async function logoutUser(token, userData) {
 //     },
 //   });
 // }
+
+export async function fetchReviewsData(userId) {
+  console.log("USER PAGE: user id from payload: ", userId);
+  const getUserReviewsURL = BASE_URL + `/reviews/${userId}`;
+  console.log(getUserReviewsURL);
+  const res = await fetch(getUserReviewsURL, {
+    method: "GET",
+  });
+  console.log("response for get user reviews: ", res);
+  const data = await res.json();
+  return data.user;
+}
+
+export async function fetchUserData(userId) {
+  // console.log(userId);
+  const getUserDataURL = BASE_URL + `/${userId}`;
+  const res = await fetch(getUserDataURL, {
+    method: "GET",
+  });
+  // console.log(res);
+  const data = await res.json();
+  // console.log(data);
+  // console.log(data.user);
+  return data.user;
+}
+
+export async function updateUserData(data, userId) {
+  console.log("update user USERID", userId);
+  const token = localStorage.getItem("token");
+  console.log("update user token: ", token);
+
+  const putUserDataURL = BASE_URL + `/${userId}`;
+  const response = await fetch(putUserDataURL, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  // console.log(response);
+
+  if (response.ok) {
+    console.log("User data updated successfully");
+  } else {
+    console.error("Failed to update user data");
+  }
+}
