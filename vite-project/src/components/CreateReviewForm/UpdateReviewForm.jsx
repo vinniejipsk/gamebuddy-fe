@@ -26,6 +26,7 @@ export default function UpdateReviewForm() {
   const { reviewId } = useParams();
   const navigate = useNavigate();
   const userId = reviewData.userId;
+  const BASE_URL = "https://gamebuddy-mnj1.onrender.com/reviews";
 
   // const userId = localStorage.getItem('_id');
   // console.log("UserId:", userId);
@@ -33,7 +34,7 @@ export default function UpdateReviewForm() {
   useEffect(() => {
     const fetchReview = async () => {
       try {
-        const response = await fetch(`https://gamebuddy-mnj1.onrender.com/reviews/${reviewId}`);
+        const response = await fetch(BASE_URL + `/${reviewId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch review');
         }
