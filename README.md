@@ -22,7 +22,7 @@ Sign up, Log in, Update credentials, View User own Reviews
 Review: 
 Main page to see all reviews, Select a review to see, Create a Review, Update a review, Delete a review 
 
-![image](https://github.com/vinniejipsk/gamebuddy-fe/assets/141219700/e98e94be-7200-467f-a2f3-87e7db7a8de8)
+![image](https://github.com/vinniejipsk/gamebuddy-fe/assets/141219700/ec2cf12b-f88e-4271-850e-39c76c00c196)
 ![image](https://github.com/vinniejipsk/gamebuddy-fe/assets/141219700/95c35e7e-2c7b-434d-abae-09b1531311ea)
 
 # Installations
