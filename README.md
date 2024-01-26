@@ -1,7 +1,10 @@
-# Game buddy
+# GameBuddy
 A game reviews website where users can create, edit and delete game reviews. All users can view other user' reviews.
 
-# Technology Used For Frontend
+# Deployment Link
+https://gamebuddy-fe.onrender.com/
+
+# Technologies Used For Frontend
 MERN Stack: React, CSS and Material Ui.
 
 # General Approach
