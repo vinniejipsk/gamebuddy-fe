@@ -65,6 +65,19 @@ function UserReviews({ reviews }) {
                   <Typography variant="subtitle1">
                     {review.releaseYear}
                   </Typography>
+                  <Link to={`/reviews/${review._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Typography 
+                    variant="subtitle2" 
+                    color="primary" 
+                    style={{ 
+                      cursor: 'pointer', 
+                      marginTop: '16px', // Adjust top margin 
+                      fontSize: '1.1rem' // Set specific font size 
+                    }}
+                  >
+                    Learn More
+                  </Typography>
+                  </Link>
                 </Box>
               </Grid>
             </Grid>
